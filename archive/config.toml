@@ -1,0 +1,61 @@
+baseURL = 'http://localhost/'
+languageCode = 'en-us'
+title = 'Troubly'
+theme = 'paper'
+
+#[services]
+#  [services.disqus]
+#    shortname = 'Comments'     # use disqus comments
+
+[params]
+  # color style
+  color = 'light'                           # linen, wheat, gray, light
+
+  # header social icons
+#  twitter = 'YOUR_TWITTER_ID'               # twitter.com/YOUR_TWITTER_ID
+  github = 'estradeb'                 # github.com/YOUR_GITHUB_ID
+#  instagram = 'YOUR_INSTAGRAM_ID'           # instagram.com/YOUR_INSTAGRAM_ID
+  linkedin = 'benoit-estrade'             # linkedin.com/in/YOUR_LINKEDIN_ID
+#  mastodon = 'YOUR_MASTODON_LINK'           # e.g. 'https://mastodon.instance/@xxx'
+#  threads = '@YOUR_THREADS_ID'              # threads.net/@YOUR_THREADS_ID
+#  bluesky = 'YOUR_BLUESKY_ID'               # https://bsky.app/profile/YOUR_BLUESKY_ID
+#  rss = true                                # show rss icon
+
+  # home page profile
+  avatar = '/var/www/blog/data/favIcon.jpeg'                 # gravatar email or image url
+  name = 'Benoit ESTRADE'
+  bio = 'Hello, this is a blog to collect various curiosities on computer security'
+
+[menus]
+[[menu.main]]
+name = "Home"
+url = "./posts"
+weight = 1
+
+[[menu.main]]
+name = "About"
+weight = 3
+url = "page/about"
+
+[[menu.main]]
+name = "Contact"
+weight = 5
+url = "page/contact"
+
+  # misc
+#  disableHLJS = true                        # disable highlight.js
+#  disablePostNavigation = true              # disable post navigation
+#  monoDarkIcon = true                       # show monochrome dark mode icon
+#  gravatarCdn = 'GRAVATAR_CDN_LINK'         # e.g. 'https://cdn.v2ex.com/gravatar/'
+#  math = false                               # enable KaTeX math typesetting globally
+#  localKatex = false                        # use local KaTeX js/css instead of CDN
+#  graphCommentId = "YOUR_GRAPH_COMMENT_ID"  # use graph comment (disqus alternative)
+#  favicon = "/var/www/blog/data/favIcon.jpeg"                   # customize the default favicon
+  #appleTouchIcon = "/var/www/blog/data/favIcon.jpeg"   # customize the default Apple touch icon
+
+  # RTL support
+#  direction = "rtl"                         # RTL support for Right-to-left languages
+
+[markup]
+  defaultMarkdownHandler = 'goldmark'
+

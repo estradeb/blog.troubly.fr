@@ -1,0 +1,483 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#fff"
+  lang="en-us"
+  dir="ltr"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>-Benoit ESTRADE</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="Published : 05 Jan 2025
+What is the Protected Users AD security group ?
+The protected users group is a package of security features that will act  Windows systems as they manage your authentication.
+Here is a representation of the Kerberos protocol
+sequenceDiagram
+    Client-&gt;&gt;&#43;DC: AS_REQ (ask for session key and TGT)
+    DC-&gt;&gt;-Client: AS_REP (respond with TGT and session key)
+    Client--&gt;&gt;&#43;DC: TGS_REQ (hands TGT, ask for TGS)
+    
+    DC--&gt;&gt;-Client: TGS_REP (respond with TGS)
+    Client--&gt;&gt;&#43;Server: AP_REQ (hands TGS)
+    Server--&gt;&gt;-Client: AP_REP (respond with Service Session key)
+The following features are applied" />
+  <meta name="author" content="Benoit ESTRADE" /><link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+
+  
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+
+  <link rel="preload" as="image" href="https://www.gravatar.com/avatar/0cf7a4fa77a8d0370ce06e806fac50e4?s=160&amp;d=identicon" />
+
+  <link rel="preload" as="image" href="http://localhost:1313/github.svg" /><link rel="preload" as="image" href="http://localhost:1313/linkedin.svg" /><link rel="preload" as="image" href="http://localhost:1313/rss.svg" />
+
+  <script
+    defer
+    src="http://localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="http://localhost:1313/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="http://localhost:1313/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.146.5">
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="http://localhost:1313/"
+      >Benoit ESTRADE</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#fff'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-10 rtl:space-x-reverse"
+    ><a
+        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/homepage/"
+        >Home</a
+      ><a
+        class="block text-center text-xl leading-[5rem] lg:text-base lg:font-normal"
+        href="/content/"
+        >Content</a
+      ></nav><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/estradeb"
+        target="_blank"
+        rel="me"
+      >github</a>
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./linkedin.svg)"
+        href="https://linkedin.com/in/benoit-estrade"
+        target="_blank"
+        rel="me"
+      >linkedin</a>
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./rss.svg)"
+        href="http://localhost:1313/index.xml"
+        target="_blank"
+        rel="alternate"
+      >rss</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5"></h1><div class="text-xs antialiased opacity-60"></div></header>
+
+  <section><p><em>Published : 05 Jan 2025</em></p>
+<h1 id="what-is-the-protected-users-ad-security-group-">What is the <em>Protected Users</em> AD security group ?</h1>
+<p>The protected users group is a package of security features that will act  Windows systems as they manage your authentication.</p>
+<p><strong>Here is a representation of the Kerberos protocol</strong></p>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+    Client-&gt;&gt;+DC: AS_REQ (ask for session key and TGT)
+    DC-&gt;&gt;-Client: AS_REP (respond with TGT and session key)
+    Client--&gt;&gt;+DC: TGS_REQ (hands TGT, ask for TGS)
+    
+    DC--&gt;&gt;-Client: TGS_REP (respond with TGS)
+    Client--&gt;&gt;+Server: AP_REQ (hands TGS)
+    Server--&gt;&gt;-Client: AP_REP (respond with Service Session key)
+</code></pre><p><strong>The following features are applied</strong></p>
+<ul>
+<li>
+<p><strong>DC&rsquo;s perspective</strong> :</p>
+<ul>
+<li>Will refuse NTLM, Digest, or CredSSP authentication attempts (legacy authentications Security Support Provider)</li>
+<li>Will refuse Kerberos DES or RC4 encryption in the pre-authentication steps
+<ul>
+<li>In the <a href="http://aurelien26.free.fr/kerberos/01_simple/AS_REQ.html">AS_REQ</a>, the client encrypts a timestamp (<em>PA-ENC-TS-ENC</em>) with the user&rsquo;s Kerberos ekeys (an altered form of the user&rsquo;s password). This data block can be intercepted on the network and the password can be cracked, especially if encryption is down graded to DES (<a href="https://www.thehacker.recipes/ad/movement/kerberos/asreqroast">ASREQroast</a>).</li>
+<li>In the AS_REP, the DC respond to the client with a TGT and with a bloc of information called <a href="http://aurelien26.free.fr/kerberos/01_simple/AS_REP.html">EncASRepPart</a> which is encrypted with the user&rsquo;s ekeys (can be <a href="https://github.com/Yaxxine7/ASRepCatcher/tree/main">intercepted</a> and cracked offline)</li>
+</ul>
+</li>
+<li>Will refuse Kerberos authentication attempts without pre-authentication</li>
+<li>Will only hand 4 hour long TGT</li>
+<li>Will refuse any kind of Kerberos delegation (constrained, unconstrained, or ressource based)</li>
+</ul>
+</li>
+<li>
+<p><strong>Authentication client&rsquo;s perspective</strong> :</p>
+<ul>
+<li>Will not cache password hashes locally (though <em>some</em> authentication secrets will remain, as <a href="https://adsecurity.org/?page_id=1821">a mimikatz dump might show you</a>, i.e the Kereberos Ticket itself, but these are still <a href="https://www.thehacker.recipes/ad/movement/kerberos/ptt">harder to re-use</a>)</li>
+<li>LSASS will not store  Kerberos ekeys</li>
+<li>Will not cache domain credentials (dcc cache) - Offline login will not be permitted</li>
+</ul>
+</li>
+<li>
+<p><strong>Authentication server&rsquo;s perspective</strong> :</p>
+<ul>
+<li>Nothing</li>
+</ul>
+</li>
+</ul>
+<p><strong>Here is a non-exhaustive view of the risks covered by Protected Users</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>Offensive technics</th>
+          <th>The risk covered by protected Users</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>NTLM</td>
+          <td>Capture LM/NTLM hashes</td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td>NTLM</td>
+          <td>Relay NTLM auth</td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td>NTLM</td>
+          <td>Pass the hash</td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td>Kerberos</td>
+          <td>Pre-auth bruteforce</td>
+          <td>No but makes it harder (stronger encryption is used)</td>
+      </tr>
+      <tr>
+          <td>Kerberos</td>
+          <td>Pass the key</td>
+          <td>No but makes it harder (Kerberos eKeys are still created and stored for a brief moment upon authentication)</td>
+      </tr>
+      <tr>
+          <td>Kerberos</td>
+          <td>Overpass the hash</td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td>Kerberos</td>
+          <td>Pass the ticket</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td>Kerberos</td>
+          <td>Pass the cache</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td>Kerberos</td>
+          <td>Forge tickets using krtgt password</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td>Kerberos</td>
+          <td>ASREQroast</td>
+          <td>No but makes it harder</td>
+      </tr>
+      <tr>
+          <td>Kerberos</td>
+          <td>ASREProast</td>
+          <td>No but makes it harder</td>
+      </tr>
+      <tr>
+          <td>Kerberos</td>
+          <td>Kerberoast</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td>Kerberos</td>
+          <td>Delegations abuse</td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td>Kerberos with cert auth</td>
+          <td>msDS-KeyCredentialLink abuse</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td>Kerberos with cert auth</td>
+          <td>UnPAC the hash</td>
+          <td>Unknown</td>
+      </tr>
+      <tr>
+          <td>Kerberos with cert auth</td>
+          <td>Pass the Certificate</td>
+          <td>No</td>
+      </tr>
+  </tbody>
+</table>
+<h1 id="thing-required-before-going-throught-this">Thing required before going throught this</h1>
+<p>Protected Users aims at securing the various attacks being made against privileged user account in Active Directory. In a defensive strategy and starting from nothing, there exists some steps to take before going through the hussle of PU (and the NTLM restriction problem).</p>
+<blockquote>
+<p>[!Tip] Less admins means less problems
+Once plug-in, <strong>PU will provoke authentication issues</strong>. The fewer users you have to get into PU, the fewer headaches might happen.</p></blockquote>
+<blockquote>
+<p>[!Tip] Prioritise NTLM relay mitigation
+The NTLM restrictions you are about to perform will never cover the whole organization. If NTLM relay mitigation are not setup, efforts made in the direction of PU will be useless as the attacker can just use NTLM relay on remaining the remaining privileged service accounts (without PU)</p></blockquote>
+<blockquote>
+<p>[!Tip] Turn on some PU features manually
+Finally, PU is a package of features. It&rsquo;s best to turn on some of them manually first in order to better anticipate NTLM problems when PU is really setup</p>
+<ul>
+<li><strong><a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-security-configure-encryption-types-allowed-for-kerberos">Disable RC4 and DES encryption</a></strong> on Kerberos on target accounts</li>
+<li>Enable &ldquo;<strong>this account is sensible and cannot be delegated</strong>&rdquo; manually on target accounts</li>
+<li>Make sure kerberos pre-authentication is enabled manually on target accounts</li>
+<li>Disabled Digest and CredSSP</li>
+<li>Reduce kerberos TGT lifetime via <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/maximum-lifetime-for-user-ticket">GPO</a></li>
+<li>Make sure admin accounts are not used for scheduled task or as service account</li>
+</ul></blockquote>
+<p>Finally, as system requirements,</p>
+<ul>
+<li>The functional level of the schéma needs to be of 2012 R2 - DCs can be on Windows Server 2012 R2 ;</li>
+<li>Windows client systems will apply PU restrictions with Windows 7 as long as they have KB2871997 installed (and higher OS versions).</li>
+</ul>
+<h1 id="how-does-protected-users-operates-">How does Protected Users operates ?</h1>
+<p>A Security Support Provider (SSP) is a collection of authentication package for a type of authentication protocol. For exemple, the NTLM SSP has NLTMv1 and NTLMv2 authentication package.</p>
+<p>Those SSP are allowed to create and manipulate authentication secrets (i.e alternated forms of the user&rsquo;s password) on windows systems. Since Windows 7, the way a user can give out its password to authenticate is very standardized and secured.</p>
+<ul>
+<li>On the client system, the password is briefly stored in clear-text and handled to the SSP which each have their own ways and format for storing credentials (NTLM has simple hashed, Kerberos has ekeys, session keys and tickets).
+<ul>
+<li>The user gives it&rsquo;s password once and it&rsquo;s automatically formated to every available SSP format.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>In the client system, any application that wish to use AD authentication must go through the Security Support Provider Interface (SSPI) which itself will handle authentication with the server
+<a href="https://learn.microsoft.com/en-us/windows-server/security/windows-authentication/security-support-provider-interface-architecture">Here is how Microsoft draw it</a>
+![[authn_securitysupportproviderinterfacearchitecture 1.jpg]]</li>
+<li>Upon authentication, the SSP negociation takes place with the server ; this is where the server gives the list of supported SSP to the client, and where both agree on which SSP to use (usually either Kerberos or NTLM)</li>
+</ul>
+<h1 id="anticipate-ntlm-usage">Anticipate NTLM usage</h1>
+<p>Applications <em><strong>usually</strong></em> use Kerberos for their authentication but also <em><strong>might</strong></em> not. If Microsoft only developpes Kerberos compatible application since the year 2000, tiers applications might not. Microsoft gives a good <a href="https://learn.microsoft.com/en-us/windows-server/security/windows-authentication/security-support-provider-interface-architecture#BKMK_NTLMSSP">list</a> of what NTLM can still be used for (and therefore, service that needs to be tested if you were to implement PU)</p>
+<p><strong>What is NTLM used for ?</strong> (what is about to break)</p>
+<blockquote>
+<ul>
+<li>Client/server authentication</li>
+<li>Print services</li>
+<li>File access by using CIFS (SMB)</li>
+<li>Secure Remote Procedure Call service or DCOM service</li>
+<li>RDP when the destination computer is referred as an IP address</li>
+</ul></blockquote>
+<p><strong>What is Kerberos used for ?</strong></p>
+<blockquote>
+<ul>
+<li>==Active Directory queries that use the Lightweight Directory Access Protocol (LDAP)==</li>
+<li>Remote server or workstation management that uses the Remote Procedure Call service</li>
+<li>Print services</li>
+<li>Client-server authentication</li>
+<li>Remote file access that uses the Server Message Block (SMB) protocol (also known as Common Internet File System or CIFS)</li>
+<li>Distributed file system management and referral</li>
+<li>Intranet authentication to Internet Information Services (IIS)</li>
+<li>Security authority authentication for Internet Protocol security (IPsec)</li>
+<li>Certificate requests to Active Directory Certificate Services for domain users and computers</li>
+<li>RDP when the destination computer is referred as a domain name</li>
+</ul></blockquote>
+<p>Considering that all Microsoft developed applications work with Kerberos only, it&rsquo;s hinted that Tier 0 admins should be your priority targets</p>
+<h1 id="application-and-authentication-protocol">Application and authentication protocol</h1>
+<p>In the kerberos authentication process, the AS_REQ and AS_REP messages can be integrated into various transport protocoles depending on the destination application service.
+For exemple, for web application, the AS_REQ is encoded into the HTTP header, while LDAP expects it in the bind request</p>
+<p>In the LDAP case, Authentication can achieve this either by using LDAP and LDAPS bind requests that are both accepted by domain controllers. Or they can pass their windows authentication over LDAP using SASL bind (Simple Authentication and Security Layer).</p>
+<h3 id="ldap-simple-bind">LDAP Simple Bind</h3>
+<p>Ldap Simple Bind</p>
+<ul>
+<li>
+<p>the AD account password is transmitted in <strong>clear text</strong> over the network</p>
+</li>
+<li>
+<p>Is accepted by the DC unless signature has been configured![[Pasted image 20250115143726.png]]</p>
+<ul>
+<li>Is rejected once Protected Users is set on the account
+<ul>
+<li>![[Pasted image 20250115144050.png]]</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>As mentioned in the prerequisites of Protected Users, imposing NTLM relaying mitigation (and thus LDAP signature) should be a priority over protected User.</p>
+</li>
+</ul>
+<h3 id="sasl-bind">SASL Bind</h3>
+<ul>
+<li>SASL is a framework that aims to provide an authenticating mechanisms on top of any transport protocole. Thos SASL mechanisms are not used any more</li>
+<li>Instead, in an authentication context, SASL is calls for an abstraction layer called GSS-API.</li>
+<li>GSS-API is a set of functions that allow secure exchange of information (&ldquo;tokens&rdquo;) for the authentication protocole. It provides security services to the data transmitted by it.
+<ul>
+<li>It accompanies its data exchange with a cryptographic tag known as an Message Integrity Code (MIC),</li>
+<li>it encrypts the token if needed</li>
+</ul>
+</li>
+<li>Those token are opaques to the upper layers. They contain blobs of informations used by a given authenticating protocole.</li>
+<li>Before all of this, SASL has to know which authenticating protocole is installed on each parties. For this, it calls SPNEGO (Simple and Protected GSSAPI Negotiation Mechanism) to list and select available protocols.</li>
+<li>Here is an example of a Kerberos AP_REP inside a SASL/LDAP bind request with LDP.exe as LDAP client.
+![[Pasted image 20250115171449.png]]</li>
+</ul>
+<blockquote>
+<p>[!NOTE] Before GSS-API
+In the first RFC defining SASL, &ldquo;SASL mechanisms&rdquo; were supposed to be cleary defined and listed protocols for any developers to pick from. RFC 2222 states that IANA was suppose to maintain this list of &ldquo;allowed&rdquo; authentication mechanisms. The IETF did <a href="https://www.iana.org/assignments/sasl-mechanisms/sasl-mechanisms.xhtml">standardized some of them</a> but eventually gave up.</p></blockquote>
+<h1 id="ldap-over-tls">LDAP over TLS</h1>
+<p>Clients may access AD data using LDAPS ; Even thought TLS can achieve client authentication at its level by having a user certificate on the client machine, this is not required for the <a href="https://learn.microsoft.com/en-in/troubleshoot/windows-server/active-directory/enable-ldap-over-ssl-3rd-certification-authority">ldaps session to take place</a>.</p>
+<p>Here is a capture packet of LDAPS initialisation process
+![[Pasted image 20250116120042.png]]
+It&rsquo;s unclear how most LDAPS clients are implemented but, since we know that client authentication is not needed on the TLS layer for the LDP.exe client, it has to be required in the application layer (therefore either using a simple bind, or a SASL Bind). So in the end, LDAPS might or might not work with Protected Users depending on which binding operation is used</p>
+<h1 id="using-ntlm-logs">Using NTLM logs</h1>
+<p>Microsoft dedicate special log settings for NTLM usage via a group policy object called &ldquo;<a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-security-restrict-ntlm-audit-ntlm-authentication-in-this-domain">Network security: Restrict NTLM: Audit NTLM authentication in this domain</a>&rdquo;.</p>
+<ul>
+<li>Logs end up on each DC in Applications and Services Log\Microsoft\Windows\NTLM. NTLM blocking was <a href="https://techcommunity.microsoft.com/blog/askds/ntlm-blocking-and-you-application-analysis-and-auditing-methodologies-in-windows/397191">extensively studied</a> for a time until NTLM was seen as impossible to get rid of.</li>
+<li>You can <a href="https://github.com/estradeb/AD-help-script/blob/main/QueryNtlmEvents">query each DC remotely</a> and export it to CSV to parse it.</li>
+<li>The idea was to follow the path there after :
+<ol>
+<li>GPO 1 : <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-security-restrict-ntlm-audit-ntlm-authentication-in-this-domain">Network security: Restrict NTLM: Audit NTLM authentication in this domain</a>&quot; to single out left over NTLM services on the target OU of servers</li>
+<li>GPO 2 : &ldquo;<em>Network security: Restrict NTLM: Add server exceptions in this domain</em>&rdquo; to add them as exceptions on the target OU of servers</li>
+<li>GPO 3 : &ldquo;<em>Network security: Restrict NTLM:  NTLM authentication in this domain</em>&rdquo; to forbid any new NTLM authentication on the target OU of servers</li>
+</ol>
+</li>
+</ul>
+<p>Exemple of Event 8004 :
+![[Pasted image 20250211153547.png]]</p>
+<blockquote>
+<p>[!warning]
+While &ldquo;Restrict NTLM&rdquo; GPOs might be of help to single out left over NTLM services in the environnement, there is little chance security admins can find an appropriate solution for all the impacted services.
+<strong>Protected users has the advantage of targeting a specific set of critical users</strong> on which NTLM can be disabled without headache <strong>but lack the ability to single out service exceptions</strong>.</p></blockquote>
+<h1 id="documentation">Documentation</h1>
+<table>
+  <thead>
+      <tr>
+          <th>Microsoft, «Protected Users Security Group,» Available: <a href="https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group">https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group</a>.</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>A. Bordes, «Kerberos samples,»  Available: <a href="http://aurelien26.free.fr/kerberos/">http://aurelien26.free.fr/kerberos/</a>.</td>
+      </tr>
+  </tbody>
+</table>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:1313/content/authentication-policy-silos-defensive-strategies/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span></span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2025<a class="link" href="http://localhost:1313/">Benoit ESTRADE</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
