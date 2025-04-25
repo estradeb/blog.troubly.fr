@@ -1,0 +1,37 @@
+baseURL = 'https://blog.troubly.fr/'
+languageCode = 'en-us'
+title = 'Benoit ESTRADE'
+theme = "paper"
+
+
+[params]
+  # color style
+  color = 'light'
+
+  # contacts   
+  github = 'estradeb'                 # github.com/YOUR_GITHUB_ID
+  linkedin = 'benoit-estrade'             # linkedin.com/in/YOUR_LINKEDIN_ID
+  rss = true
+
+  # home page profile
+  name = 'Benoit ESTRADE'
+  bio = "Blog"
+
+
+[menus]
+	[[menu.main]]
+	identifier = "About"
+	name = "About"
+	pageRef = "/about/"
+	weight = 10
+
+	[[menu.main]]
+	name = "Content"
+	pageRef = "/content/"
+	weight = 20
+	
+
+#[markup]
+#  defaultMarkdownHandler = 'goldmark'
+#[markup.goldmark.renderer]
+#unsafe= true
