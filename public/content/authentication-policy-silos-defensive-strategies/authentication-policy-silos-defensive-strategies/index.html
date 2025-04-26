@@ -250,7 +250,7 @@ PS C:\Users\audit&gt; secedit.exe /export /db &#34;C:\Windows\security\database\
 <ul>
 <li>Deny logon GPOs cannot push &ldquo;deny all but exception group&rdquo; type policies. They can only point specific user groups that are not allowed.</li>
 <li>GPOs are deployed accross a given organizational unit. If the domain arborescence is shaped with this in mind, access control might be a good solution. Although often times, servers are mixed together in the same organizational unit.</li>
-<li>Here is an illustration of the problem <img src="%22/images/spnego-Page-20.jpg%22" alt=""></li>
+<li>Here is an illustration of the problem <img src="%22images/spnego-Page-20.jpg%22" alt=""></li>
 </ul>
 </li>
 </ul>
@@ -265,7 +265,7 @@ PS C:\Users\audit&gt; secedit.exe /export /db &#34;C:\Windows\security\database\
 <p>For example, an authentication policy assigned to a user account <strong>might impose conditions on which he can obtain a TGT</strong>.  This authentication policy might require that the user make its TGT request from a computer that is member of a specific group or Silo (see [[#Scenario 1 - TGT request restriction | Scenario 1]] further down). If the user makes a connection from another device, the TGT request is refused.</p>
 <p>![](&quot;/images/spnego-Page-17\ 1.jpg&quot;)
 Another example, a service is running under an user account context. An authentication policy assigned to this user account <strong>might impose conditions on which other user can access this service  (i.e request a TGS for it).</strong> The authentication policy might require those other account to be member of a specific group or silo - see [[#Scenario 2 - TGS request restriction to Windows session |Scenario 2]] and [[#Scenario 3 - TGS request restriction to services running under user accounts (not tested)| Scenario 3]]. On Scenario 2, the service is the windows login session and it is running under the computer account running context but the operation remains the same (the user still require a TGS to access its windows session and an authentication policy can restrict this request).</p>
-<p>![](&quot;/images/spnego-Copie de Page-17.jpg&quot;)</p>
+<p>![](/images/spnego-Copie de Page-17.jpg)</p>
 <ul>
 <li>Authentication Silos and policies are two class of objects defined in the <em>configuration</em> naming context in `Services &gt; AuthN policy configuration &gt; AuthN Silos / AuthN Policies</li>
 </ul>
@@ -315,7 +315,7 @@ Any new members of a silo cannot be registered only on the Silo object. The silo
 <li>If silos are to be used, new members must be written on the silo object <strong>and</strong> on the new member account itself. Writing the silo as member only on the new member account won&rsquo;t be enough.</li>
 <li>The new AD GUI must be used and both silos and new member account must be changed for the assignation to work.
 <ul>
-<li><img src="%22/images/spnego-Page-11.jpg%22" alt=""></li>
+<li><img src="%22/images/spnego-Page-11.jpg%22" alt="spnego-Page-11.jpg"></li>
 <li><img src="%22/images/spnego-Page-12.jpg%22" alt=""></li>
 </ul>
 </li>
@@ -690,7 +690,13 @@ AES-256 keys can be written into the @Dirkjam script &ldquo;keytab.py&rdquo; and
 </table>
 </section>
 
-  </article></main><footer
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="http://localhost:1313/content/authentication-policy-silos-defensive-strategies/"
+      ><span>Authentication Policy Silos defensive strategies</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2025<a class="link" href="http://localhost:1313/">Benoit ESTRADE</a></div>

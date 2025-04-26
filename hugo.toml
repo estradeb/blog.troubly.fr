@@ -1,7 +1,7 @@
 baseURL = 'https://blog.troubly.fr/'
 languageCode = 'en-us'
-title = 'Benoit ESTRADE'
-theme = "paper"
+title = 'Blog.Troubly.fr'
+theme = "PaperMod"
 
 
 [params]
@@ -27,11 +27,11 @@ theme = "paper"
 
 	[[menu.main]]
 	name = "Content"
-	pageRef = "/content/"
+	pageRef = "/posts/"
 	weight = 20
 	
 
-#[markup]
-#  defaultMarkdownHandler = 'goldmark'
-#[markup.goldmark.renderer]
-#unsafe= true
+[markup]
+  defaultMarkdownHandler = 'goldmark'
+[markup.goldmark.renderer]
+	unsafe= true
