@@ -4,7 +4,7 @@
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>Authentication Policy Silos defensive strategies | Blog.Troubly.fr</title>
 <meta name="keywords" content="ActiveDirectory">
 <meta name="description" content="What&rsquo;s Kerberos FAST
@@ -58,7 +58,80 @@ Kerberos initial pre-authentication steps are vulnerable to password cracking. C
         }
 
     </style>
-</noscript>
+</noscript><meta property="og:url" content="http://localhost:1313/posts/authentication-policy-silos-defensive-strategies/authentication-policy-silos-defensive-strategies/">
+  <meta property="og:site_name" content="Blog.Troubly.fr">
+  <meta property="og:title" content="Authentication Policy Silos defensive strategies">
+  <meta property="og:description" content="What’s Kerberos FAST In April 2011, RFC6113 introduce an upgrade to Kerberos user pre-authentication named Kerberos armoring (or Kerberos FAST for Flexible Authentication via Secure Tunneling). In 2012, Microsoft implements this upgrade in its new Active Directory functional level.
+Core concept Kerberos initial pre-authentication steps are vulnerable to password cracking. Computer AD account password are complex enough to mitigate this type of attacks. User AD account password are less complex. Since users authenticate on domain computers that have already authenticated to the domain, the idea of FAST is to strenghten user’s pre-authentication steps with this already existing and available computer’s secret (the computer’s session key).">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-19T10:12:05+02:00">
+    <meta property="article:modified_time" content="2025-03-19T10:12:05+02:00">
+    <meta property="article:tag" content="ActiveDirectory">
+      <meta property="og:image" content="http://localhost:1313/images/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:1313/images/cover.png">
+<meta name="twitter:title" content="Authentication Policy Silos defensive strategies">
+<meta name="twitter:description" content="What&rsquo;s Kerberos FAST
+In April 2011,  RFC6113 introduce an upgrade to Kerberos user pre-authentication named Kerberos armoring (or Kerberos FAST for Flexible Authentication via Secure Tunneling). In 2012, Microsoft implements this upgrade in its new Active Directory functional level.
+Core concept
+Kerberos initial pre-authentication steps are vulnerable to password cracking. Computer AD account password are complex enough to mitigate this type of attacks. User AD account password are less complex. Since users authenticate on domain computers that have already authenticated to the domain, the idea of FAST is to strenghten user&rsquo;s pre-authentication steps with this already existing and available computer&rsquo;s secret (the computer&rsquo;s session key).">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Authentication Policy Silos defensive strategies",
+      "item": "http://localhost:1313/posts/authentication-policy-silos-defensive-strategies/authentication-policy-silos-defensive-strategies/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Authentication Policy Silos defensive strategies",
+  "name": "Authentication Policy Silos defensive strategies",
+  "description": "What\u0026rsquo;s Kerberos FAST In April 2011, RFC6113 introduce an upgrade to Kerberos user pre-authentication named Kerberos armoring (or Kerberos FAST for Flexible Authentication via Secure Tunneling). In 2012, Microsoft implements this upgrade in its new Active Directory functional level.\nCore concept Kerberos initial pre-authentication steps are vulnerable to password cracking. Computer AD account password are complex enough to mitigate this type of attacks. User AD account password are less complex. Since users authenticate on domain computers that have already authenticated to the domain, the idea of FAST is to strenghten user\u0026rsquo;s pre-authentication steps with this already existing and available computer\u0026rsquo;s secret (the computer\u0026rsquo;s session key).\n",
+  "keywords": [
+    "ActiveDirectory"
+  ],
+  "articleBody": "What’s Kerberos FAST In April 2011, RFC6113 introduce an upgrade to Kerberos user pre-authentication named Kerberos armoring (or Kerberos FAST for Flexible Authentication via Secure Tunneling). In 2012, Microsoft implements this upgrade in its new Active Directory functional level.\nCore concept Kerberos initial pre-authentication steps are vulnerable to password cracking. Computer AD account password are complex enough to mitigate this type of attacks. User AD account password are less complex. Since users authenticate on domain computers that have already authenticated to the domain, the idea of FAST is to strenghten user’s pre-authentication steps with this already existing and available computer’s secret (the computer’s session key).\nIn addition, FAST allow users to nest the entire computer’s TGT into its own TGT request. Thus, the KDC gains the ability to enforce access control policies based on computer.\nKerberos armoring advantages Here is a representation of the Kerberos authentication chain. In the following, Kerberos frames are detailed with @aurelienBordes website.\nsequenceDiagram Client-\u003e\u003e+DC: AS_REQ (ask for session key and TGT) DC-\u003e\u003e-Client: AS_REP (respond with TGT and session key) Client--\u003e\u003e+DC: TGS_REQ (hands TGT, ask for TGS) DC--\u003e\u003e-Client: TGS_REP (respond with TGS) Client--\u003e\u003e+Server: AP_REQ (hands TGS) Server--\u003e\u003e-Client: AP_REP (respond with Service Session key) Kerberos armoring has three security advantages :\nThe security encryption of the AS_REP/AS_REQ (TGT requests) is improved.\nIn the standard version of Kerberos, the Kerberos [[Appendix - Forms of access control and secrets in Active Directory environnements#Ekeys|ekeys]] are used to encrypt a timestamp in the AS_REQ. This AS_REQ can be intercepted on the network and cracked offline In the armored version of Kerberos, [[Appendix - Forms of access control and secrets in Active Directory environnements#Armor Key \u0026 Challenge Key|new armor and challenge keys]] are forged using the user’s Kerberos ekeys and the computer’s session key Here is a diagram from @aurelien26 of the resulting AS_REQ encryption, and here is the parsed PCAP The AS_REP/AS_REQ requests of the computer account authentication is less vulnerable to attack since computers session keys are much more secured than user’s eKeys. The KDC can now decide from which computer the user is allowed to request its TGT\nIn addition to the computer’s session key being reused, the computer’s TGT is also passed as argument inside AS_REQ The KDC can decrypts this TGT and securely identify t[he originating device for a given authentication request. A specific subkey encrypted with the computer’s current session key is additionally passed in this new AS_REQ. This construction guarantees that both the KDC (through the session key) and the client (through the subkey) contribute to the armor key. From this, the KDC can technically perform access control (though only if Kerberos is used) Here is a diagram of the improved FAST AS_REQ versus the standard AS_REQ : {{ $image := .Resources.Get “images/AS-REQ-fast-AS-REQ-FAST.jpg” }}\nThe KDC can now decide from which computer the user is allowed to request access to a specific service\nIn the same manner as the FAST AS_REQ, a new FAST TGS_REQ can now pass in the computer’s TGT as argument. The KDC is now also allowed to check if the service access is requested from a specific computer. Also, the service does not have to be compatible with this access control. The KDC is authoritative TGS delivery and can restrict service access all by itself (obviously services could accept NTLM authentication but the KDC can decide to refuse it). When Kerberos armoring is enable, the KDC can control the device from which users authenticates and make decisions based on it (apply security policies for access control).\n[!INFO] On “subkey” key generation Upon user authentication, the client computer already has a valid TGT and a session key to communicate securely with the KDC. While the TGT is included is the new FAST AS_REQ “as is”, the computer also generate a “subkey” and combines it with the other keys to obtain the armor key. This additional subkey is generated using the system-time, its name, and potentially a specific message that identify the purpose of the key generation (FAST user authentication). See RFC 4120 for details on how authenticator sub keys are generated by the authentication client.\n[!info] On “Passing the computer’s TGT into the TGS_REQ” This last part is referred to as “composed authentication”, i.e when security attributes from the originating device AND security attributes from the authenticating user are checked in a authentication policy to determine access. See TGS restriction restriction example in [[#Scenario 3 - TGS request restriction to services running under user accounts (not tested)|scenario 3]].\nIt is not mandatory to pass in the computer’s TGT into TGS requests. In fact, the KDC does not do it unless it’s needed in an authentication policy. The service itself would not be able to track the device because AP_REQ remain unchanged.\nPreviously existing access control (User Rights Assigments) As default behavior, domain users are allowed to open a windows session on any device (workstation or server) on the domain(interactive login). Though RDP access is restricted to device administrators and RDP users. User Rights Assignment settings are constants stored in the secedit.sdb database. They determine which account is allowed to log in on a computer depending on their Windows logon types . # It can be exported using secedit.exe PS C:\\Users\\audit\u003e secedit.exe /export /db \"C:\\Windows\\security\\database\\ secedit.sdb\" /areas USER_RIGHTS /log secedit.log /cfg ./secedit.inf \u003e [Privilege Rights] SeNetworkLogonRight = *S-1-1-0,*S-1-5-11,*S-1-5-32-544,*S-1-5-32-554,*S-1-5-9 SeBatchLogonRight = *S-1-5-32-544,*S-1-5-32-551,*S-1-5-32-559,*S-1-5-32-568 SeServiceLogonRight = *S-1-5-80-0 SeInteractiveLogonRight = *S-1-5-32-544,*S-1-5-32-548,*S-1-5-32-549,*S-1-5-32-550,*S-1-5-32-551,*S-1-5-9 SeRemoteInteractiveLogonRight = *S-1-5-32-544 There exist opposite “deny logon” constants for each windows logon types (i.e SeDenyInteractiveLogonRight , SeDenyServiceLogonRight, SeDenyNetworkLogonRight, SeDenyBatchLogonRight). Those have priority over “allow logon” constants.\nPrivilege rights can me changed with UserRightAssigment GPOs (for exemple, Deny interactive logon).\nFrom an administrator stand point\nDeny logon GPOs cannot push “deny all but exception group” type policies. They can only point specific user groups that are not allowed. GPOs are deployed accross a given organizational unit. If the domain arborescence is shaped with this in mind, access control might be a good solution. Although often times, servers are mixed together in the same organizational unit. Here is an illustration of the problem From a security stand point GPOs are configurations deployed locally that can be altered by attackers (for example, an attacker could coerce the authentication of an admin to a compromised device on which he has suppressed the access control GPO effectiveness) . On the other hand, access control with FAST is centralized on KDC. As seen later, the KDC can enforce FAST as a requirement but can also just provide support for it. In this later case, the access control with FAST would also suffer from the same vulnerability as the “deny access GPOs” It’s common behavior among administrators to only play with administrator’s rights to allow or deny access on servers (because server access is believed to be possible only through RDP which is not true). What are authentication Policies \u0026 Silos Core concept Authentication policies can be assigned to user, computer or service account through direct assignation or through Silo membership (i.e an authentication policy is assigned to a silo which is assigned to the target AD account). Authentication policies specify the conditions on which Kerberos tickets can be delivered (TGT or TGS). Once setup, the KDC can leverage Kerberos armoring to apply those restrictions.\nFor example, an authentication policy assigned to a user account might impose conditions on which he can obtain a TGT. This authentication policy might require that the user make its TGT request from a computer that is member of a specific group or Silo (see [[#Scenario 1 - TGT request restriction | Scenario 1]] further down). If the user makes a connection from another device, the TGT request is refused.\nAnother example, a service is running under an user account context. An authentication policy assigned to this user account might impose conditions on which other user can access this service (i.e request a TGS for it). The authentication policy might require those other account to be member of a specific group or silo - see [[#Scenario 2 - TGS request restriction to Windows session |Scenario 2]] and [[#Scenario 3 - TGS request restriction to services running under user accounts (not tested)| Scenario 3]]. On Scenario 2, the service is the windows login session and it is running under the computer account running context but the operation remains the same (the user still require a TGS to access its windows session and an authentication policy can restrict this request).\nAuthentication Silos and policies are two class of objects defined in the configuration naming context in `Services \u003e AuthN policy configuration \u003e AuthN Silos / AuthN Policies Authentication Policies can apply TGT restriction to users and service account Conditions are written in the AllowedToAuthenticateFrom attribute on the auth policy object This cannot apply to computer since you cannot armor computer TGT requests Authentication Policies can apply TGS restriction targeted at user/computer/service account Conditions are written in the AllowedToAuthenticateTo When the KDC validate the client’s compliance to the authentication policy,\nIt write the silo’s name into the user’s PAC information. It raises a flag in the PAC (adds a dummy SID “Claims Valid” into the PAC of the user’s TGT). [!Info] Audit mode Authentication Silos can be fully deployed in audit mode for test purposes. Events are created on the domain controller if enabled (see [[#Setup audit logs for authentication policy]])\n“Desambiguation” of terms On authentication policy Be aware Microsoft makes little effort to make authentication silos easy to understand.\nThe Active Directory Administrative Center GUI sometimes refers to computer account as “users” because (from a technical stand point), user and computer accounts are both AD accounts with similar data structure and behaviors (i.e has a password, a SamAccountName and group membership, makes authentication) “Service Sign on” and “Service Accounts” are in fact Group Managed Service Accounts (Those are special account used by services that negociate a password reroll every 30 days). But usually, services use a normal user account to authenticate. Those are referred to as “user account”. This is the reason why “restricting TGS requests targeted to user accounts” might sound strange. It does make sense if those user account are actually used by services. [!Info] Use Powershell cmdlt The powershell cmdlet Get-ADAuthenticationPolicy show authentication policy AllowedToAuthenticateFrom/To attributes which are the terms used in this article.\nOn silo and policy assignation [!Warning] Writing users into the silo is not enough. Any new members of a silo cannot be registered only on the Silo object. The silo itself must be registered on the user account object\nUsers can be assigned to authentication policies directly (without the use of silos). If silos are to be used, new members must be written on the silo object and on the new member account itself. Writing the silo as member only on the new member account won’t be enough. The new AD GUI must be used and both silos and new member account must be changed for the assignation to work. For user accounts, you can login locally and verify silo membership in Powershell Policy assignation is only managed on the DC’s end. The computer does not have to know about it In any case, AD group members cannot be assigned to a silo. But authentication policy can target groups (see [[## Examples of Authentication policy implementation]]) Authentication silos and authentication policy both can be managed by domain admins unless the default permissions on those containers are changed. Prerequisites for Kerberos FAST and authentication silos : All DCs must be in Windows Server 2012 or higher AD functional level must be 2012 or higher, but can be 2008 depending on the KDC configuration. KDCs must enable FAST Kerberos Via Group Policy Object : “Enable KDC support for claims, compound authentication, and Kerberos armoring” on the domain controllers Via registry key Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ Kerberos\\Parameters\\CbacAndArmorLevel This registry key tells the KDC how to manage FAST Kerberos requests It also tell it to extend the user’s PAC with user’s claims Here are the possible registry key and corresponding GPO settings :\nCbacAndArmorLevel GPO setting KDC Behavior 0 Not supported Will only accept standard Kerberos auth requests 1 Supported Will accept standard Kerberos authentication requests ; Will accept FAST authentication request if client asks for it (if the client raise a flag in its AS_REQ \u0026 TGS_REQ) 2 Always provide Claims Same as “Supported” but the KDC always extends the user’s PAC with the user’s claims (will supposedly not break authentications [not tested]) 3 Fail unarmored Authentication requests Will only accept Kerberos FAST ; This will break authentication from systems that are not compatible with FAST. This would also break computer joining process (not tested). [! info] Always provide Claims CbacAndArmorLevel is for use cases where the authentication client is not a windows computer but still implement a keberos version that comply with RFC 6113 (i.e with FAST).\nAuthentication clients must support FAST Kerberos authentication Via Group Policy Object : “Kerberos client support for claims, compound authentication and Kerberos armoring” on every computers in the domain\nVia registry key\nSoftware\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ Kerberos\\Parameters\\EnableCbacAndArmor This registry key tells the computer to forge Kerberos requests with armoring ; This registry key only tells the client computer to support armoring. The default configuration is to not support armoring. The use of authentication policies require all of the authentication clients to update their group policy settings\nExamples of Authentication policy implementation Scenario 1 - TGT request restriction The user John and the device VMAZW10AUDIT are both assigned to Silo 1 An authentication policy “Auth-pol-01” is assigned to Silo 1 with the following settings : User accounts that are members of Silo 1 have AllowedToAuthenticateFrom set to “computer accounts members of group 1” The Auth-pol-01 object changes its attribute msDS-UserAllowedToAuthenticateFrom with the following SDDL character chain : UserAllowedToAuthenticateFrom: O:SYG:SYD:(XA;OICI;CR;;;WD;(Member_of {SID(S-1-5-21-4260572771-3885837537-4253356189-7102)})) When John opens a Windows session on VMAZW10AUDIT, the Kerberos authentication chain begins\nJohn AS_REQ has the VMAZW10AUDIT’s TGT nested in, the KDC checks John’s assigned authenticated policy and sees that VMAZW10AUDIT is member of Group 1. John’s TGT is handed to him in AS_REP While John has a TGT, Windows still needs him to authenticate to its logon processes. John forge a TGS_REQ with service name “host/VMAZW10AUDIT”. The KDC receives it and checks the computer’s assigned authentication policy. VMAZW10AUDIT has no authentication policy so the TGS request is valid. John accesses the computer When John makes a connection to devices outside of Group 1, a TGT request is made with the corresponding computer’s TGT. The KDC sees that this does not match John’s assigned authentication policy.\nA pop-up message is shown to the user The KDC responds with a KRB ERROR: KRB5KDC_ERR_POLICY Event 105 is produced on the DC’s end. Device Name refers to the source of connection. On RDP session, the source device is cited as Device Name in event 105. Alternative scenario 1 would be to have both the computer and users member of Silo-01. The AllowedToAuthenticateFrom can accept ACE based on Silos. In the following example, the Auth-pol-1 to its own computer’s silo.\nUserAllowedToAuthenticateFrom : O:SYG:SYD:(XA;OICI;CR;;;WD;(@USER.ad://ext/AuthenticationSilo Any_of {\"Silo-01\"})) Scenario 2 - TGS request restriction to Windows session The user John and the device VMAZW10AUDIT are both assigned to Silo 1 An authentication policy “Auth-pol-01” is assigned to Silo 1 with the following settings : Computer accounts that are members of Silo 1 have ComputerAllowedToAuthenticateTo set to “Users accounts members of Silo-01” The Auth-pol-01 object changes its attribute msDS-ComputerAllowedToAuthenticateTo with the following SDDL character chain : ComputerAllowedToAuthenticateTo : O:SYG:SYD:(XA;OICI;CR;;;WD;(@USER.ad://ext/AuthenticationSilo Any_of {\"Silo-01\"})) The resulting access control is the following :\nWhen John opens a windows session on VMAZW10AUDIT, the Kerberos authentication chain happens\nJohn forge a AS_REQ and gets a TGT since no restriction is setup on this part (Auth-pol-01 User-AllowedToAuthenticateTo is empty) John forge a TGS_REQ for service host/VMAZW10AUDIT. The KDC receives the request and check VMAZW10AUDIT assigned authentication policy (also Auth-pol-01). It sees that John is member of Silo-01 which satisfies the ComputerAllowed-ToAuthenticateTo condition. The KDC delivers the TGS to John John opens its windows session When Alice tries to connect to VMAZW10AUDIT, the TGS_REQ fails :\nThe KDC responds with KRB ERROR: KRB5KDC_ERR_POLICY A pop-up message is shown to the user Event 106 and Event 4821 are created because the authentication policy worked (see event 106 thereafter) Event 4769 is created because a Kerberos service ticket request failed. [!Warning] TGS restriction apply to all services running under the AD computer’s account A lot of services (web servers, SMB shares, print services) run under the hosting computer AD account (see the list of Built-in SPNs for computer Account). Those are also restricted under scenario 2. Again, Deny logon GPOs might be a better fit for this use case.\nScenario 3 - TGS request restriction to services running under user accounts (not tested) The authentication policy can restrict John’s access to any service based on the service principal name (SPN) used by John in his TGS_REQ. All applications runs under a service principal (an AD account with a security descriptor and associated privileges). SPNs are well documented by Microsoft. They take a the shape of a character chain service_class/AD_account_name where the service_class is a generic name for the service (see hackndo for more on this). In scenario 2, the SPN used for Windows session login was host/VMAZW10AUDIT.\nThe AD authentication policies applies to the account name under which the service runs (part right of the SPN) ; The account requesting the service must satisfy the conditions stated by the SDDL character chain in the User-AllowedToAuthenticateTo attribute. Security principals being used by services in the domain\nEvents 4769 can be aggregated on domain controllers to get a sens of services being used in a given AD environnement (though often times, most of them are computers AD account) If any services runs under a user account, this user account will have a SPN that can be tracked Get-ADUser -Filter 'ServicePrincipalName -like \"*\"' -Properties ServicePrincipalName | Select-Object SamAccountName, ServicePrincipalName NTLM incompatibility While Kerberos will apply restrictions associated with authentication policies, systems can still fail over to NTLM.\n[Scenario 1] TGT restrictions will work but attackers can use NTLM to connect to systems [Scenario 2 \u0026 3] TGS restrictions will systematically fail over to NTLM LSA memory dump on client systems show that NTLM secrets are still stored locally :\nAuthentication policies have attributes UserAllowedNTLMNetworkAuthentication and RollingNTLMSecret. Those will not affect NTLM fail over capabilities.\nMicrosoft recommends that users given membership of the protected user group for scenario 1\nUndoubtedly, if no restriction to NTLM is locally set up (via [[Implementation of the Protected Users group#Using NTLM logs|GPO]]), Scenario 2 will not work ether\nDefensive use cases with Silos Tier 0 access control\nUse Scenario 1 to ensure that only Tier 0 admins are allowed on Tier 0 servers and PAW Use Scenario 2 to ensure that Tier 0 servers only accept Tier 0 admins Use the built-in Administrator account ready for emergency access Ensure that all Tier 0 accounts are member of Protect User group Ensure that Tier 0 device have enabled Network security: Restrict NTLM: NTLM authentication in this domain GPO Granular and exclusive access control\nScenario 1 can be used to give granular access to a set of servers mixed with other servers in an organizational unit. For exemple, a devops team are given Tier 1 accounts for the only purpose of accessing a given set of servers. Scenario 1 will make sure that those accounts cannot make a connection anywhere else. Access control on Linux servers centralized on the DC’s End\nAccess control GPO can apply access control on Windows Device only. AD-joined Linux servers can apply access control within sssd local configuration (usually, a AD group is written in static in the sssd.conf file) Authentication Silo can manage authentication from the DC’s end. Service account protection\nScenario 1 can be used to make sure a given service account is exclusively run on the server it is supposed to. Service account can be assigned a authentication policy that will restrict them to a specific set of servers (Linux or Windows) on which their service can exclusively run Acknowledgment Thanks to @AurelienBordes and his paper for the STICCS . This article use a lot of infos from his article.\nAnnexe Setup audit logs for authentication policy Enable log collection In “Microsoft-Windows-Authentication/AuthenticationPolicyFailures-DomainController” Right click \u003e property Event description from @Microsoft Event ID and Log Details 101NTLM was required An NTLM sign-in failure occurs because the authentication policy is configured.An event is logged in the domain controller to indicate that NTLM authentication failed because access control restrictions are required, and those restrictions cannot be applied to NTLM.Displays the account, device, policy, and silo names. 105 A Kerberos restriction failure occurs because the authentication from a particular device was not permitted.An event is logged in the domain controller to indicate that a Kerberos TGT was denied because the device did not meet the enforced access control restrictions.Displays the account, device, policy, silo names, and TGT lifetime. 305 A potential Kerberos restriction failure might occur because the authentication from a particular device was not permitted.In audit mode, an informational event is logged in the domain controller to determine if a Kerberos TGT will be denied because the device did not meet the access control restrictions.Displays the account, device, policy, silo names, and TGT lifetime. 106 A Kerberos restriction failure occurs because the user or device was not allowed to authenticate to the server.An event is logged in the domain controller to indicate that a Kerberos service ticket was denied because the user, device, or both do not meet the enforced access control restrictions.Displays the device, policy, and silo names. 306 A Kerberos restriction failure might occur because the user or device was not allowed to authenticate to the server.In audit mode, an informational event is logged on the domain controller to indicate that a Kerberos service ticket will be denied because the user, device, or both do not meet the access control restrictions.Displays the device, policy, and silo names. Inspect Kerberos tickets contents If needed, Kerberos tickets can be inspected in a test environnement.\n[!warning] Handling domain’s secrets The following process require exporting encryption keys (notably the KRBTGT’s account key) and others. Those secrets should be handled with a lot of caution as they are critical to the entire domain’s security\n[!info] FAST Kerberos needs both user and computer keys In FAST Kerberos authentication, the computer’s TGT is passed as argument in the user’s authentication. Both the user’s and the computer’s keys should be exported user authentication inspection\nExporting the ntds.dit database with ntdsutil\nntdsutil.exe \u003e ac i ntds \u003e ifm \u003e create full c:\\temp Getting domain secrets with impacket tools installed on a windows machine\npython.exe impacket-master\\examples\\secretsdump.py -system .\\registry\\SYSTEM -ntds '.\\Active Directory\\ntds.dit' LOCAL AES-256 keys can be written into the @Dirkjam script “keytab.py” and the resulting keytab file can be imported into Wireshark. A more complete procedure is available here\nHere is an example of a the PAC of a user’s TGT (the client Claims Info field is empty in this case scenario) Policy silos attributes table from learn.microsoft.com\nType Display Name Description User User Authentication Policy Specifies which AuthNPolicy should be applied to users who are assigned to this silo object. User User Authentication Policy Backlink This attribute is the back link for msDS-UserAuthNPolicy. User ms-DS-User-Allowed-To-Authenticate-To This attribute is used to determine the set of principals allowed to authenticate to a service running under the user account. User ms-DS-User-Allowed-To-Authenticate-From This attribute is used to determine the set of devices to which a user account has permission to sign in. User User TGT Lifetime Specifies the maximum age of a Kerberos TGT that is issued to a user (expressed in seconds). Resultant TGTs are non-renewable. Computer Computer Authentication Policy Specifies which AuthNPolicy should be applied to computers that are assigned to this silo object. Computer Computer Authentication Policy Backlink This attribute is the back link for msDS-ComputerAuthNPolicy. Computer ms-DS-Computer-Allowed-To-Authenticate-To This attribute is used to determine the set of principals that are allowed to authenticate to a service running under the computer account. Computer Computer TGT Lifetime Specifies the maximum age of a Kerberos TGT that is issued to a computer (expressed in seconds). It is not recommended to change this setting. Service Service Authentication Policy Specifies which AuthNPolicy should be applied to services that are assigned to this silo object. Service Service Authentication Policy Backlink This attribute is the back link for msDS-ServiceAuthNPolicy. Service ms-DS-Service-Allowed-To-Authenticate-To This attribute is used to determine the set of principals that are allowed to authenticate to a service running under the service account. Service ms-DS-Service-Allowed-To-Authenticate-From This attribute is used to determine the set of devices to which a service account has permission to sign in. Service Service TGT Lifetime Specifies the maximum age of a Kerberos TGT that is issued to a service (expressed in seconds). ",
+  "wordCount" : "4126",
+  "inLanguage": "en",
+  "image": "http://localhost:1313/images/cover.png","datePublished": "2025-03-19T10:12:05+02:00",
+  "dateModified": "2025-03-19T10:12:05+02:00",
+  "author":{
+    "@type": "Person",
+    "name": "Benoit Estrade"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/authentication-policy-silos-defensive-strategies/authentication-policy-silos-defensive-strategies/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Blog.Troubly.fr",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
 </head>
 
 <body class="" id="top">
@@ -118,11 +191,11 @@ Kerberos initial pre-authentication steps are vulnerable to password cracking. C
 
 <article class="post-single">
   <header class="post-header">
-    
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
       Authentication Policy Silos defensive strategies
     </h1>
-    <div class="post-meta"><span title='2025-03-19 10:12:05 +0200 +0200'>March 19, 2025</span>&nbsp;·&nbsp;Benoit Estrade
+    <div class="post-meta"><span title='2025-03-19 10:12:05 +0200 +0200'>March 19, 2025</span>&nbsp;·&nbsp;20 min&nbsp;·&nbsp;Benoit Estrade
 
 </div>
   </header> <div class="toc">
@@ -230,16 +303,17 @@ Kerberos initial pre-authentication steps are vulnerable to password cracking. C
 <p>The KDC can now <strong>decide from which computer the user is allowed to request its TGT</strong></p>
 <ul>
 <li>In addition to the computer&rsquo;s session key being reused, the computer&rsquo;s TGT is also passed as argument inside <a href="http://aurelien26.free.fr/kerberos/03_compound/AS_REQ.html">AS_REQ</a></li>
-<li>The KDC can decrypts this TGT and securely identify the originating device for a given authentication request. A specific subkey encrypted with the computer&rsquo;s current session key is additionally passed in this new AS_REQ. This construction guarantees that both the KDC (through the session key) and the client (through the subkey) contribute to the armor key.</li>
+<li>The KDC can decrypts this TGT and securely identify t[he originating device for a given authentication request. A specific subkey encrypted with the computer&rsquo;s current session key is additionally passed in this new AS_REQ. This construction guarantees that both the KDC (through the session key) and the client (through the subkey) contribute to the armor key.</li>
 <li>From this, the KDC can technically perform access control (though only if Kerberos is used)</li>
-<li>Here is a diagram of the improved FAST AS_REQ versus the standard AS_REQ : <img loading="lazy" src="images/AS-REQ-fast-AS-REQ-FAST.jpg"></li>
+<li>Here is a diagram of the improved FAST AS_REQ versus the standard AS_REQ : <img loading="lazy" src="AS-REQ-fast-AS-REQ-FAST.jpg"></li>
 </ul>
+<p>{{ $image := .Resources.Get &ldquo;images/AS-REQ-fast-AS-REQ-FAST.jpg&rdquo; }}</p>
 </li>
 <li>
 <p>The KDC can now <strong>decide from which computer the user is allowed to request access to a specific service</strong></p>
 <ul>
 <li>In the same manner as the FAST AS_REQ, a new <a href="http://aurelien26.free.fr/kerberos/03_compound/TGS2_REP.html">FAST TGS_REQ</a> can now pass in the computer&rsquo;s TGT as argument. The KDC is now also allowed to check if the service access is requested from a specific computer.
-<img loading="lazy" src="images/AS_REQ-fast-TGS_REQ-FAST.jpg"></li>
+<img loading="lazy" src="AS_REQ-fast-TGS_REQ-FAST.jpg"></li>
 <li>Also, the service does not have to be compatible with this access control. The KDC is authoritative TGS delivery and can restrict service access all by itself (obviously services could accept NTLM authentication but the KDC can decide to refuse it).</li>
 </ul>
 </li>
@@ -278,7 +352,7 @@ PS C:\Users\audit&gt; secedit.exe /export /db &#34;C:\Windows\security\database\
 <ul>
 <li>Deny logon GPOs cannot push &ldquo;deny all but exception group&rdquo; type policies. They can only point specific user groups that are not allowed.</li>
 <li>GPOs are deployed accross a given organizational unit. If the domain arborescence is shaped with this in mind, access control might be a good solution. Although often times, servers are mixed together in the same organizational unit.</li>
-<li>Here is an illustration of the problem <img loading="lazy" src="images/spnego-Page-20.jpg"></li>
+<li>Here is an illustration of the problem <img loading="lazy" src="spnego-Page-20.jpg"></li>
 </ul>
 </li>
 </ul>
@@ -295,9 +369,9 @@ PS C:\Users\audit&gt; secedit.exe /export /db &#34;C:\Windows\security\database\
 <h2 id="core-concept-1">Core concept<a hidden class="anchor" aria-hidden="true" href="#core-concept-1">#</a></h2>
 <p>Authentication policies can be assigned to user, computer or service account through direct assignation or through Silo membership (i.e an authentication policy is assigned to a silo which is assigned to the target AD account). Authentication policies specify the conditions on which Kerberos tickets can be delivered (TGT or TGS). Once setup, the KDC can leverage Kerberos armoring to apply those restrictions.</p>
 <p>For example, an authentication policy assigned to a user account <strong>might impose conditions on which he can obtain a TGT</strong>.  This authentication policy might require that the user make its TGT request from a computer that is member of a specific group or Silo (see [[#Scenario 1 - TGT request restriction | Scenario 1]] further down). If the user makes a connection from another device, the TGT request is refused.</p>
-<p><img loading="lazy" src="images/spnego-page-17-1.jpg"></p>
+<p><img loading="lazy" src="spnego-page-17-1.jpg"></p>
 <p>Another example, a service is running under an user account context. An authentication policy assigned to this user account <strong>might impose conditions on which other user can access this service  (i.e request a TGS for it).</strong> The authentication policy might require those other account to be member of a specific group or silo - see [[#Scenario 2 - TGS request restriction to Windows session |Scenario 2]] and [[#Scenario 3 - TGS request restriction to services running under user accounts (not tested)| Scenario 3]]. On Scenario 2, the service is the windows login session and it is running under the computer account running context but the operation remains the same (the user still require a TGS to access its windows session and an authentication policy can restrict this request).</p>
-<p><img loading="lazy" src="images/spnego-Copie-de-Page-17.jpg"></p>
+<p><img loading="lazy" src="spnego-Copie-de-Page-17.jpg"></p>
 <ul>
 <li>Authentication Silos and policies are two class of objects defined in the <em>configuration</em> naming context in `Services &gt; AuthN policy configuration &gt; AuthN Silos / AuthN Policies</li>
 </ul>
@@ -318,11 +392,11 @@ PS C:\Users\audit&gt; secedit.exe /export /db &#34;C:\Windows\security\database\
 <ol>
 <li>It write the silo&rsquo;s name into the user&rsquo;s PAC information.
 <ul>
-<li><img loading="lazy" src="images/Pasted-image-20250226172657.png"></li>
+<li><img loading="lazy" src="Pasted-image-20250226172657.png"></li>
 </ul>
 </li>
 <li>It raises a flag in the PAC (adds a dummy SID &ldquo;Claims Valid&rdquo; into the PAC of the user&rsquo;s TGT).
-<img loading="lazy" src="images/Pasted-image-20250212173158.png"></li>
+<img loading="lazy" src="Pasted-image-20250212173158.png"></li>
 </ol>
 <blockquote>
 <p>[!Info] Audit mode
@@ -347,13 +421,13 @@ Any new members of a silo cannot be registered only on the Silo object. The silo
 <li>If silos are to be used, new members must be written on the silo object <strong>and</strong> on the new member account itself. Writing the silo as member only on the new member account won&rsquo;t be enough.</li>
 <li>The new AD GUI must be used and both silos and new member account must be changed for the assignation to work.
 <ul>
-<li><img loading="lazy" src="images/spnego-Page-11.jpg"></li>
-<li><img loading="lazy" src="images/spnego-Page-12.jpg"></li>
+<li><img loading="lazy" src="spnego-Page-11.jpg"></li>
+<li><img loading="lazy" src="spnego-Page-12.jpg"></li>
 </ul>
 </li>
 <li>For user accounts, you can login locally and verify silo membership in Powershell
 <ul>
-<li><img loading="lazy" src="images/Pasted-image-20250226173350.png"></li>
+<li><img loading="lazy" src="Pasted-image-20250226173350.png"></li>
 </ul>
 </li>
 <li>Policy assignation is only managed on the DC&rsquo;s end. The computer does not have to know about it</li>
@@ -449,11 +523,11 @@ CbacAndArmorLevel is for use cases where the authentication client is not a wind
 </li>
 </ul>
 <pre tabindex="0"><code>UserAllowedToAuthenticateFrom: O:SYG:SYD:(XA;OICI;CR;;;WD;(Member_of {SID(S-1-5-21-4260572771-3885837537-4253356189-7102)}))
-</code></pre><p><img loading="lazy" src="images/spnego-Scenario-1-2.jpg"></p>
+</code></pre><p><img loading="lazy" src="spnego-Scenario-1-2.jpg"></p>
 <p>When John opens a Windows session on VMAZW10AUDIT, the Kerberos authentication chain begins</p>
 <ul>
 <li>John AS_REQ has the VMAZW10AUDIT&rsquo;s TGT nested in, the KDC checks John&rsquo;s assigned authenticated policy and sees that VMAZW10AUDIT is member of Group 1. John&rsquo;s TGT is handed to him in AS_REP</li>
-<li>While John has a TGT, Windows still needs him to authenticate to its logon processes. John forge a TGS_REQ with service name &ldquo;<em>host/VMAZW10AUDIT</em>&rdquo;.<img loading="lazy" src="images/Pasted-image-20250302191612.png"></li>
+<li>While John has a TGT, Windows still needs him to authenticate to its logon processes. John forge a TGS_REQ with service name &ldquo;<em>host/VMAZW10AUDIT</em>&rdquo;.<img loading="lazy" src="Pasted-image-20250302191612.png"></li>
 <li>The KDC receives it and checks the computer&rsquo;s assigned authentication policy. VMAZW10AUDIT has no authentication policy so the TGS request is valid.</li>
 <li>John accesses the computer</li>
 </ul>
@@ -461,21 +535,21 @@ CbacAndArmorLevel is for use cases where the authentication client is not a wind
 <ul>
 <li>A pop-up message is shown to the user
 <ul>
-<li><img loading="lazy" src="images/Pasted-image-20250218162419.png"></li>
-<li><img loading="lazy" src="images/Pasted-image-20250218162850.png"></li>
+<li><img loading="lazy" src="Pasted-image-20250218162419.png"></li>
+<li><img loading="lazy" src="Pasted-image-20250218162850.png"></li>
 </ul>
 </li>
 <li>The KDC responds with a <em>KRB ERROR: KRB5KDC_ERR_POLICY</em> <img loading="lazy" src="%22/images/spnego-Page-14.jpg%22"></li>
 <li>Event 105 is produced on the DC&rsquo;s end.
 <ul>
-<li><img loading="lazy" src="images/Pasted-image-20250226171852.png"></li>
+<li><img loading="lazy" src="Pasted-image-20250226171852.png"></li>
 <li>Device Name refers to the source of connection. On RDP session, the source device is cited as <em>Device Name</em> in event 105.</li>
 </ul>
 </li>
 </ul>
 <p>Alternative scenario 1 would be to have both the computer and users member of Silo-01. The AllowedToAuthenticateFrom can accept ACE based on Silos. In the following example, the <em>Auth-pol-1</em> to its own computer&rsquo;s silo.</p>
 <pre tabindex="0"><code>UserAllowedToAuthenticateFrom : O:SYG:SYD:(XA;OICI;CR;;;WD;(@USER.ad://ext/AuthenticationSilo Any_of {&#34;Silo-01&#34;}))
-</code></pre><p><img loading="lazy" src="images/spnego-Scenario-1-bis-1.jpg"></p>
+</code></pre><p><img loading="lazy" src="spnego-Scenario-1-bis-1.jpg"></p>
 <h2 id="scenario-2---tgs-request-restriction-to-windows-session">Scenario 2 - TGS request restriction to Windows session<a hidden class="anchor" aria-hidden="true" href="#scenario-2---tgs-request-restriction-to-windows-session">#</a></h2>
 <ul>
 <li>The user John and the device VMAZW10AUDIT are both assigned to Silo 1</li>
@@ -488,7 +562,7 @@ CbacAndArmorLevel is for use cases where the authentication client is not a wind
 </ul>
 <pre tabindex="0"><code>ComputerAllowedToAuthenticateTo : O:SYG:SYD:(XA;OICI;CR;;;WD;(@USER.ad://ext/AuthenticationSilo Any_of {&#34;Silo-01&#34;}))
 </code></pre><p>The resulting access control is the following :</p>
-<p><img loading="lazy" src="images/spnego-Scenario-2.jpg"></p>
+<p><img loading="lazy" src="spnego-Scenario-2.jpg"></p>
 <p>When John opens a windows session on VMAZW10AUDIT, the Kerberos authentication chain happens</p>
 <ol>
 <li>John forge a AS_REQ and gets a TGT since no restriction is setup on this part (Auth-pol-01 <em>User-AllowedToAuthenticateTo</em> is empty)</li>
@@ -501,9 +575,9 @@ CbacAndArmorLevel is for use cases where the authentication client is not a wind
 <li>The KDC responds with <em>KRB ERROR: KRB5KDC_ERR_POLICY</em></li>
 <li>A pop-up message is shown to the user</li>
 </ul>
-<p><img loading="lazy" src="images/Pasted-image-20250228100453.png"></p>
+<p><img loading="lazy" src="Pasted-image-20250228100453.png"></p>
 <ul>
-<li>Event 106 and  <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4821">Event 4821</a> are created because the authentication policy worked (see event 106 thereafter) <img loading="lazy" src="images/Pasted-image-20250228153449.png"></li>
+<li>Event 106 and  <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4821">Event 4821</a> are created because the authentication policy worked (see event 106 thereafter) <img loading="lazy" src="Pasted-image-20250228153449.png"></li>
 <li><a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4769">Event 4769</a> is created because a Kerberos service ticket request failed.</li>
 </ul>
 <blockquote>
@@ -515,7 +589,7 @@ A lot of services (web servers, SMB shares, print services) run under the hostin
 <li>The AD authentication policies applies to the account name under which the service runs (part right of the SPN) ;</li>
 <li>The account requesting the service must satisfy the conditions stated by the SDDL character chain in the <em>User-AllowedToAuthenticateTo</em> attribute.</li>
 </ul>
-<p><img loading="lazy" src="images/spnego-Scenario-3.jpg"></p>
+<p><img loading="lazy" src="spnego-Scenario-3.jpg"></p>
 <p><strong>Security principals being used by services in the domain</strong></p>
 <ul>
 <li>Events 4769 can be aggregated on domain controllers to get a sens of services being used in a given AD environnement (though often times, most of them are computers AD account)</li>
@@ -529,7 +603,7 @@ A lot of services (web servers, SMB shares, print services) run under the hostin
 <li>[Scenario 2 &amp; 3] TGS restrictions will systematically fail over to NTLM</li>
 </ul>
 <p>LSA memory dump on client systems show that NTLM secrets are still stored locally :</p>
-<p><img loading="lazy" src="images/spnego-Page-19-2.jpg"></p>
+<p><img loading="lazy" src="spnego-Page-19-2.jpg"></p>
 <ul>
 <li>
 <p>Authentication policies have attributes <em>UserAllowedNTLMNetworkAuthentication</em> and
@@ -585,7 +659,7 @@ A lot of services (web servers, SMB shares, print services) run under the hostin
 <ul>
 <li>In  &ldquo;<em>Microsoft-Windows-Authentication/AuthenticationPolicyFailures-DomainController</em>&rdquo;</li>
 <li>Right click &gt; property</li>
-<li><img loading="lazy" src="images/AS-REQ-fast-Page-8.jpg"></li>
+<li><img loading="lazy" src="AS-REQ-fast-Page-8.jpg"></li>
 </ul>
 <h3 id="event-description-from-microsoft">Event description from @<a href="https://learn.microsoft.com/fr-fr/windows-server/security/credentials-protection-and-management/authentication-policies-and-authentication-policy-silos#BKMK_ErrorandEvents">Microsoft</a><a hidden class="anchor" aria-hidden="true" href="#event-description-from-microsoft">#</a></h3>
 <table>
@@ -597,24 +671,24 @@ A lot of services (web servers, SMB shares, print services) run under the hostin
   </thead>
   <tbody>
       <tr>
-          <td>101<br>NTLM was required</td>
-          <td><strong>An NTLM sign-in failure occurs because the authentication policy is configured.</strong><br><br>An event is logged in the domain controller to indicate that NTLM authentication failed because access control restrictions are required, and those restrictions cannot be applied to NTLM.<br><br>Displays the account, device, policy, and silo names.</td>
+          <td>101<!-- raw HTML omitted -->NTLM was required</td>
+          <td><strong>An NTLM sign-in failure occurs because the authentication policy is configured.</strong><!-- raw HTML omitted --><!-- raw HTML omitted -->An event is logged in the domain controller to indicate that NTLM authentication failed because access control restrictions are required, and those restrictions cannot be applied to NTLM.<!-- raw HTML omitted --><!-- raw HTML omitted -->Displays the account, device, policy, and silo names.</td>
       </tr>
       <tr>
-          <td>105<br><br></td>
-          <td><strong>A Kerberos restriction failure occurs because the authentication from a particular device was not permitted</strong>.<br><br>An event is logged in the domain controller to indicate that a Kerberos TGT was denied because the device did not meet the enforced access control restrictions.<br><br>Displays the account, device, policy, silo names, and TGT lifetime. <br></td>
+          <td>105<!-- raw HTML omitted --><!-- raw HTML omitted --></td>
+          <td><strong>A Kerberos restriction failure occurs because the authentication from a particular device was not permitted</strong>.<!-- raw HTML omitted --><!-- raw HTML omitted -->An event is logged in the domain controller to indicate that a Kerberos TGT was denied because the device did not meet the enforced access control restrictions.<!-- raw HTML omitted --><!-- raw HTML omitted -->Displays the account, device, policy, silo names, and TGT lifetime. <!-- raw HTML omitted --></td>
       </tr>
       <tr>
-          <td>305<br></td>
-          <td><strong>A potential Kerberos restriction failure might occur because the authentication from a particular device was not permitted</strong>.<br><br>In audit mode, an informational event is logged in the domain controller to determine if a Kerberos TGT will be denied because the device did not meet the access control restrictions.<br><br>Displays the account, device, policy, silo names, and TGT lifetime.</td>
+          <td>305<!-- raw HTML omitted --></td>
+          <td><strong>A potential Kerberos restriction failure might occur because the authentication from a particular device was not permitted</strong>.<!-- raw HTML omitted --><!-- raw HTML omitted -->In audit mode, an informational event is logged in the domain controller to determine if a Kerberos TGT will be denied because the device did not meet the access control restrictions.<!-- raw HTML omitted --><!-- raw HTML omitted -->Displays the account, device, policy, silo names, and TGT lifetime.</td>
       </tr>
       <tr>
-          <td>106<br></td>
-          <td><strong>A Kerberos restriction failure occurs because the user or device was not allowed to authenticate to the server.</strong><br><br>An event is logged in the domain controller to indicate that a Kerberos service ticket was denied because the user, device, or both do not meet the enforced access control restrictions.<br><br>Displays the device, policy, and silo names.</td>
+          <td>106<!-- raw HTML omitted --></td>
+          <td><strong>A Kerberos restriction failure occurs because the user or device was not allowed to authenticate to the server.</strong><!-- raw HTML omitted --><!-- raw HTML omitted -->An event is logged in the domain controller to indicate that a Kerberos service ticket was denied because the user, device, or both do not meet the enforced access control restrictions.<!-- raw HTML omitted --><!-- raw HTML omitted -->Displays the device, policy, and silo names.</td>
       </tr>
       <tr>
-          <td>306<br><br></td>
-          <td><strong>A Kerberos restriction failure might occur because the user or device was not allowed to authenticate to the server.</strong><br><br>In audit mode, an informational event is logged on the domain controller to indicate that a Kerberos service ticket will be denied because the user, device, or both do not meet the access control restrictions.<br><br>Displays the device, policy, and silo names.</td>
+          <td>306<!-- raw HTML omitted --><!-- raw HTML omitted --></td>
+          <td><strong>A Kerberos restriction failure might occur because the user or device was not allowed to authenticate to the server.</strong><!-- raw HTML omitted --><!-- raw HTML omitted -->In audit mode, an informational event is logged on the domain controller to indicate that a Kerberos service ticket will be denied because the user, device, or both do not meet the access control restrictions.<!-- raw HTML omitted --><!-- raw HTML omitted -->Displays the device, policy, and silo names.</td>
       </tr>
   </tbody>
 </table>
@@ -633,10 +707,10 @@ In FAST Kerberos authentication, the computer&rsquo;s TGT is passed as argument 
 &gt; create full c:\temp
 </code></pre><p>Getting domain secrets with impacket tools installed on a windows machine</p>
 <pre tabindex="0"><code>python.exe impacket-master\examples\secretsdump.py -system .\registry\SYSTEM -ntds &#39;.\Active Directory\ntds.dit&#39; LOCAL
-</code></pre><p><img loading="lazy" src="images/spnego-Page-6.jpg">
+</code></pre><p><img loading="lazy" src="spnego-Page-6.jpg">
 AES-256 keys can be written into the @Dirkjam script &ldquo;keytab.py&rdquo; and the resulting keytab file can be imported into Wireshark. A more complete procedure is available <a href="https://medium.com/tenable-techblog/decrypt-encrypted-stub-data-in-wireshark-deb132c076e7">here</a></p>
 <p>Here is an example of a the PAC of a user&rsquo;s TGT (the client Claims Info field is empty in this case scenario)
-<img loading="lazy" src="images/Pasted-image-20250206165130.png"></p>
+<img loading="lazy" src="Pasted-image-20250206165130.png"></p>
 <h2 id="policy-silos-attributes">Policy silos attributes<a hidden class="anchor" aria-hidden="true" href="#policy-silos-attributes">#</a></h2>
 <p>table from <a href="https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/authentication-policies-and-authentication-policy-silos#about-authentication-policies">learn.microsoft.com</a></p>
 <table>
@@ -728,6 +802,75 @@ AES-256 keys can be written into the @Dirkjam script &ldquo;keytab.py&rdquo; and
     <ul class="post-tags">
       <li><a href="http://localhost:1313/tags/activedirectory/">ActiveDirectory</a></li>
     </ul>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Authentication Policy Silos defensive strategies on x"
+            href="https://x.com/intent/tweet/?text=Authentication%20Policy%20Silos%20defensive%20strategies&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fauthentication-policy-silos-defensive-strategies%2fauthentication-policy-silos-defensive-strategies%2f&amp;hashtags=ActiveDirectory">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Authentication Policy Silos defensive strategies on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fauthentication-policy-silos-defensive-strategies%2fauthentication-policy-silos-defensive-strategies%2f&amp;title=Authentication%20Policy%20Silos%20defensive%20strategies&amp;summary=Authentication%20Policy%20Silos%20defensive%20strategies&amp;source=http%3a%2f%2flocalhost%3a1313%2fposts%2fauthentication-policy-silos-defensive-strategies%2fauthentication-policy-silos-defensive-strategies%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Authentication Policy Silos defensive strategies on reddit"
+            href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fauthentication-policy-silos-defensive-strategies%2fauthentication-policy-silos-defensive-strategies%2f&title=Authentication%20Policy%20Silos%20defensive%20strategies">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Authentication Policy Silos defensive strategies on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fauthentication-policy-silos-defensive-strategies%2fauthentication-policy-silos-defensive-strategies%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Authentication Policy Silos defensive strategies on whatsapp"
+            href="https://api.whatsapp.com/send?text=Authentication%20Policy%20Silos%20defensive%20strategies%20-%20http%3a%2f%2flocalhost%3a1313%2fposts%2fauthentication-policy-silos-defensive-strategies%2fauthentication-policy-silos-defensive-strategies%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Authentication Policy Silos defensive strategies on telegram"
+            href="https://telegram.me/share/url?text=Authentication%20Policy%20Silos%20defensive%20strategies&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fauthentication-policy-silos-defensive-strategies%2fauthentication-policy-silos-defensive-strategies%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Authentication Policy Silos defensive strategies on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=Authentication%20Policy%20Silos%20defensive%20strategies&u=http%3a%2f%2flocalhost%3a1313%2fposts%2fauthentication-policy-silos-defensive-strategies%2fauthentication-policy-silos-defensive-strategies%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
   </footer>
 </article>
     </main>
@@ -800,6 +943,53 @@ AES-256 keys can be written into the @Dirkjam script &ldquo;keytab.py&rdquo; and
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 </body>
 

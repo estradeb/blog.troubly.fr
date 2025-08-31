@@ -42,10 +42,10 @@ Kerberos armoring has three security advantages :
 
 2. The KDC can now **decide from which computer the user is allowed to request its TGT**
 	- In addition to the computer's session key being reused, the computer's TGT is also passed as argument inside [AS_REQ](http://aurelien26.free.fr/kerberos/03_compound/AS_REQ.html) 
-	- The KDC can decrypts this TGT and securely identify the originating device for a given authentication request. A specific subkey encrypted with the computer's current session key is additionally passed in this new AS_REQ. This construction guarantees that both the KDC (through the session key) and the client (through the subkey) contribute to the armor key.
+	- The KDC can decrypts this TGT and securely identify t[he originating device for a given authentication request. A specific subkey encrypted with the computer's current session key is additionally passed in this new AS_REQ. This construction guarantees that both the KDC (through the session key) and the client (through the subkey) contribute to the armor key.
 	- From this, the KDC can technically perform access control (though only if Kerberos is used)
-	- Here is a diagram of the improved FAST AS_REQ versus the standard AS_REQ : ![](images/AS-REQ-fast-AS-REQ-FAST.jpg)
-
+	- Here is a diagram of the improved FAST AS_REQ versus the standard AS_REQ : 
+![AS-REQ-fast-AS-REQ-FAST.jpg](images/AS-REQ-fast-AS-REQ-FAST.jpg)
 
 3. The KDC can now **decide from which computer the user is allowed to request access to a specific service**
 	- In the same manner as the FAST AS_REQ, a new [FAST TGS_REQ](http://aurelien26.free.fr/kerberos/03_compound/TGS2_REP.html) can now pass in the computer's TGT as argument. The KDC is now also allowed to check if the service access is requested from a specific computer.
@@ -96,7 +96,7 @@ Authentication policies can be assigned to user, computer or service account thr
 
 For example, an authentication policy assigned to a user account **might impose conditions on which he can obtain a TGT**.  This authentication policy might require that the user make its TGT request from a computer that is member of a specific group or Silo (see [[#Scenario 1 - TGT request restriction | Scenario 1]] further down). If the user makes a connection from another device, the TGT request is refused.
 
-![](images/spnego-page-17-1.jpg)
+![](images/images/spnego-page-17-1.jpg)
 
 Another example, a service is running under an user account context. An authentication policy assigned to this user account **might impose conditions on which other user can access this service  (i.e request a TGS for it).** The authentication policy might require those other account to be member of a specific group or silo - see [[#Scenario 2 - TGS request restriction to Windows session |Scenario 2]] and [[#Scenario 3 - TGS request restriction to services running under user accounts (not tested)| Scenario 3]]. On Scenario 2, the service is the windows login session and it is running under the computer account running context but the operation remains the same (the user still require a TGS to access its windows session and an authentication policy can restrict this request). 
 
@@ -202,7 +202,7 @@ When John makes a connection to devices outside of Group 1, a TGT request is mad
 * A pop-up message is shown to the user 
 	* ![](images/Pasted-image-20250218162419.png)
 	* ![](images/Pasted-image-20250218162850.png)
-* The KDC responds with a *KRB ERROR: KRB5KDC_ERR_POLICY* ![]("/images/spnego-Page-14.jpg")
+* The KDC responds with a *KRB ERROR: KRB5KDC_ERR_POLICY* ![](images/"/images/spnego-Page-14.jpg")
 * Event 105 is produced on the DC's end.
 	* ![](images/Pasted-image-20250226171852.png)
 	* Device Name refers to the source of connection. On RDP session, the source device is cited as *Device Name* in event 105.

@@ -4,6 +4,11 @@
     <title>Tags on Blog.Troubly.fr</title>
     <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on Blog.Troubly.fr</description>
+    <image>
+      <title>Blog.Troubly.fr</title>
+      <url>http://localhost:1313/images/cover.png</url>
+      <link>http://localhost:1313/images/cover.png</link>
+    </image>
     <generator>Hugo -- 0.146.5</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 19 Mar 2025 10:12:05 +0200</lastBuildDate>

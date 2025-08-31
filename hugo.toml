@@ -5,18 +5,38 @@ theme = "PaperMod"
 
 
 [params]
-  # color style
-  color = 'light'
+	env = "production"
+	author = "Benoit ESTRADE"
+	defaultTheme = "auto"
+	ShowShareButtons = true
+	ShowReadingTime = true
+	displayFullLangName = false
+	ShowPostNavLinks = true
+	ShowBreadCrumbs = true
+	ShowCodeCopyButtons = true
+	ShowRssButtonInSectionTermList = true
+	ShowAllPagesInArchive = true
+	ShowPageNums = true
+	ShowToc = true
+	images = ["images/cover.png"] #Is in /assets/
 
-  # contacts   
-  github = 'estradeb'                 # github.com/YOUR_GITHUB_ID
-  linkedin = 'benoit-estrade'             # linkedin.com/in/YOUR_LINKEDIN_ID
-  rss = true
+[params.homeInfoParams]
+	Title = "Blog.troubly.fr"
+	Content = """
+Hello, I am a system security engineer. I am writing this blog to share things I work on. I spend most of my time on Microsoft security challenges but I’m looking to diversify things
 
-  # home page profile
-  name = 'Benoit ESTRADE'
-  bio = "Blog"
 
+![](/images/profilpic.jpg "{width='20'}")
+	"""
+
+[[params.socialIcons]]
+	name = "github"
+	title = "Personnal Github profil"
+	url = "https://github.com/estradeb"
+[[params.socialIcons]]
+	name = "LinkedIn"
+	title = "My LinkedIn profil"
+	url = "https://www.linkedin.com/in/benoit-estrade/"
 
 [menus]
 	[[menu.main]]
@@ -29,9 +49,12 @@ theme = "PaperMod"
 	name = "Content"
 	pageRef = "/posts/"
 	weight = 20
-	
 
-[markup]
-  defaultMarkdownHandler = 'goldmark'
-[markup.goldmark.renderer]
-	unsafe= true
+
+
+[markup.goldmark]
+	[markup.goldmark.renderer]
+		unsafe= true
+#	[markup.goldmark.renderHooks]
+#	  [markup.goldmark.renderHooks.image]
+#	    enableDefault = true
