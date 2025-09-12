@@ -7,4 +7,5 @@ author = "Benoit Estrade"
 
 Hello, I am a system security engineer. I am writing this blog to share things I work on. I spend most of my time on Microsoft security challenges but I'm looking to diversify things 
 
-![](/images/profilpic.jpg)
+<img src="/images/profilpic.jpg" alt="drawing" width="200" />
+

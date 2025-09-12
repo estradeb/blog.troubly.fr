@@ -23,10 +23,9 @@ theme = "PaperMod"
 [params.homeInfoParams]
 	Title = "Blog.troubly.fr"
 	Content = """
-Hello, I am a system security engineer. I am writing this blog to share things I work on. I spend most of my time on Microsoft security challenges but I’m looking to diversify things
+	👋 Welcome to this little blog
 
 
-![](/images/profilpic.jpg "{width='20'}")
 	"""
 
 [[params.socialIcons]]
@@ -37,6 +36,7 @@ Hello, I am a system security engineer. I am writing this blog to share things I
 	name = "LinkedIn"
 	title = "My LinkedIn profil"
 	url = "https://www.linkedin.com/in/benoit-estrade/"
+
 
 [menus]
 	[[menu.main]]

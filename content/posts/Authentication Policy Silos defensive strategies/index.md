@@ -20,17 +20,7 @@ In addition, FAST allow users to nest the entire computer's TGT into its own TGT
 ## Kerberos armoring advantages
 Here is a representation of the Kerberos authentication chain. In the following, Kerberos frames are detailed with [@aurelienBordes website](http://aurelien26.free.fr/kerberos/).
 
-```mermaid
-sequenceDiagram
-    Client->>+DC: AS_REQ (ask for session key and TGT)
-    DC->>-Client: AS_REP (respond with TGT and session key)
-    Client-->>+DC: TGS_REQ (hands TGT, ask for TGS)
-    
-    DC-->>-Client: TGS_REP (respond with TGS)
-    Client-->>+Server: AP_REQ (hands TGS)
-    Server-->>-Client: AP_REP (respond with Service Session key)
-```
-
+![Kerberos_diagram.png](images/Kerberos_diagram.png)
 
 Kerberos armoring has three security advantages :
 
